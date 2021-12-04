@@ -3,6 +3,7 @@ package com.example.fr.insa.models;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -21,6 +22,7 @@ public class Compte {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Size(min = 27, max = 27)
 	private String iban;
 
 	private float soldeCompte = 0;
