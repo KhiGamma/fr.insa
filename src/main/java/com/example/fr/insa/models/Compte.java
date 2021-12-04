@@ -22,6 +22,8 @@ public class Compte {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+
 	@Size(min = 27, max = 27)
 	private String iban;
 
