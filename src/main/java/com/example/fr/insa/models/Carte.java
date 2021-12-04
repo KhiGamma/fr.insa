@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,10 +23,15 @@ public class Carte {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String numeroCarte;
+
 	@NotBlank
 	private String motDePasse;
+
+	@NotBlank
 	private float plafond;
+
 	@ManyToOne
+	@JsonIgnore
 	private Compte compte;
 }
 
