@@ -1,5 +1,6 @@
 package com.example.fr.insa.services;
 
+import com.example.fr.insa.exceptions.FonctionnalProcessException;
 import com.example.fr.insa.exceptions.ModelNotValidException;
 import com.example.fr.insa.models.Agence;
 import com.example.fr.insa.reposotories.AgenceRepository;
@@ -13,17 +14,27 @@ import java.util.List;
 @Service
 public class AgenceService {
 
+    private static final String AGENCE_NOT_FOUND = "Agence non trouvée avec l'id : %s";
+
     @Autowired
-    private AgenceRepository agenceRepository;
+    public AgenceRepository agenceRepository;
 
     public List<Agence> getAllAgence() {
         return this.agenceRepository.findAll();
     }
 
-    //@Transactional(rollbackOn = Exception.class)
-    public Agence saveAgence(AgenceCreateModel agenceToCreate) /*throws FonctionnalProcessException*/ {
+    public Agence getAgenceById(String id) throws FonctionnalProcessException {
+        Agence agence =
+                agenceRepository
+                        .findById(id)
+                        .orElseThrow(() -> new FonctionnalProcessException(String.format(AGENCE_NOT_FOUND, id)));
+        return agence;
+    }
 
-        validateagenceModel(agenceToCreate);
+    //@Transactional(rollbackOn = Exception.class)
+    public Agence saveAgence(AgenceCreateModel agenceToCreate) throws FonctionnalProcessException {
+
+        validateAgenceModel(agenceToCreate);
 
         Agence a = Agence.builder()
                 .nomAgence(agenceToCreate.getNomAgence())
@@ -35,7 +46,11 @@ public class AgenceService {
         return this.agenceRepository.save(a);
     }
 
-    private void validateagenceModel(AgenceCreateModel agenceToCreate) throws ModelNotValidException {
+    public void deleteAgence(String id) {
+        this.agenceRepository.deleteById(id);
+    }
+
+    private void validateAgenceModel(AgenceCreateModel agenceToCreate) throws ModelNotValidException {
         ModelNotValidException ex = new ModelNotValidException();
 
         if(agenceToCreate == null) {
@@ -51,6 +66,7 @@ public class AgenceService {
         if(agenceToCreate.getVille() == null ||  agenceToCreate.getVille().isBlank()) {
             ex.getMessages().add("la ville est vide");
         }
+
         if(!ex.getMessages().isEmpty()) {
             throw ex;
         }
