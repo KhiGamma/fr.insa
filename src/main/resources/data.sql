@@ -4,7 +4,7 @@ VALUES
     ('agence2', 'adresse agence 2', 'Valenciennes'),
     ('agence3', 'adresse agence 3', 'Valenciennes');
 
-INSERT INTO Client (ADRESSE, AGE, CODE_POSTAL, NOM, PRENOM, TELEPHONE, VILLE, AGENCE_CODE_AGENCE)
+INSERT INTO Client (ADRESSE, AGE, CODE_POSTAL, NOM, PRENOM, TELEPHONE, VILLE, AGENCE_ID)
 VALUES
     ('adresse client 1', 18, '59700', 'nom client 1', 'prenom client 1', '1234567890', 'Marly', 1),
     ('adresse client 2', 25, '59300', 'nom client 2', 'prenom client 2', '1234567890', 'Valenciennes', 1),

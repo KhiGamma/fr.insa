@@ -8,8 +8,8 @@ import lombok.*;
 
 import java.util.List;
 
-@Builder
 @Entity
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,6 +18,8 @@ public class Agence {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+
 	@Size(min = 5, max = 5)
 	private String codeAgence;
 

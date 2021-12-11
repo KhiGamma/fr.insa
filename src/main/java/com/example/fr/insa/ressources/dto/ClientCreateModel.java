@@ -20,5 +20,5 @@ public class ClientCreateModel {
 
     private String ville;
 
-    private String agenceId;
+    private int agenceId;
 }

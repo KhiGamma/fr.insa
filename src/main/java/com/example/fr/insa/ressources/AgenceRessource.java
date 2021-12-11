@@ -23,7 +23,7 @@ public class AgenceRessource extends CommonResource {
     }
 
     @GetMapping("{id}")
-    public Agence getAgence(@PathVariable("id") String id) throws Exception {
+    public Agence getAgence(@PathVariable("id") int id) throws Exception {
         return agenceService.getAgenceById(id);
     }
 
@@ -33,7 +33,7 @@ public class AgenceRessource extends CommonResource {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity deleteAgence(@PathVariable("id") String id) {
+    public ResponseEntity deleteAgence(@PathVariable("id") int id) {
         this.agenceService.deleteAgence(id);
         return ResponseEntity.ok().build();
     }

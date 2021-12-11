@@ -23,7 +23,7 @@ public class AgenceService {
         return this.agenceRepository.findAll();
     }
 
-    public Agence getAgenceById(String id) throws FonctionnalProcessException {
+    public Agence getAgenceById(int id) throws FonctionnalProcessException {
         Agence agence =
                 agenceRepository
                         .findById(id)
@@ -41,12 +41,13 @@ public class AgenceService {
                 .adresse(agenceToCreate.getAdresse())
                 .ville(agenceToCreate.getVille())
                 .clients(new ArrayList<>())
+                .codeAgence("")
                 .build();
 
         return this.agenceRepository.save(a);
     }
 
-    public void deleteAgence(String id) {
+    public void deleteAgence(int id) {
         this.agenceRepository.deleteById(id);
     }
 
