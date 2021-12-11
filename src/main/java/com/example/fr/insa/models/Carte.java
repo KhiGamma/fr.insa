@@ -21,8 +21,7 @@ import lombok.*;
 public class Carte {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Size(min = 16, max = 16)
+	@Size(min = 19, max = 19)
 	private String numeroCarte;
 
 	@NotBlank

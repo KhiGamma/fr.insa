@@ -41,7 +41,6 @@ public class AgenceService {
                 .adresse(agenceToCreate.getAdresse())
                 .ville(agenceToCreate.getVille())
                 .clients(new ArrayList<>())
-                .codeAgence("")
                 .build();
 
         return this.agenceRepository.save(a);

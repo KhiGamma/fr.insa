@@ -1,6 +1,7 @@
 package com.example.fr.insa.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -17,11 +18,10 @@ import java.util.List;
 public class Agence {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-
-	@Size(min = 5, max = 5)
-	private String codeAgence;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "codeAgenceGenerator")
+	@SequenceGenerator(name = "codeAgenceGenerator", initialValue = 10004, allocationSize = 1)
+	@Max(99999)
+	private int codeAgence;
 
 	@NotBlank
 	private String nomAgence;

@@ -6,6 +6,7 @@ import com.example.fr.insa.models.Carte;
 import com.example.fr.insa.reposotories.CarteRepository;
 import com.example.fr.insa.ressources.dto.CarteCreateModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,6 +19,9 @@ public class CarteService {
 
     @Autowired
     private CarteRepository carteRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     public List<Carte> getAllCarte() {
         return this.carteRepository.findAll();
@@ -33,10 +37,13 @@ public class CarteService {
 
     public Carte saveCarte(CarteCreateModel carteToCreate) throws FonctionnalProcessException {
 
+
+
         validateCarteModel(carteToCreate);
 
         Carte c = Carte.builder()
-                .motDePasse(carteToCreate.getMotDePasse())
+                .numeroCarte(genererNumeroCarte())
+                .motDePasse(this.passwordEncoder.encode(carteToCreate.getMotDePasse()))
                 .plafond(carteToCreate.getPlafond())
                 .build();
 
@@ -45,6 +52,26 @@ public class CarteService {
 
     public void deleteCarte(String id) {
         this.carteRepository.deleteById(id);
+    }
+
+    private String genererNumeroCarte() {
+        int un = (int)(Math.random() * (9999 - 1000 + 1) + 1000);
+        int deux = (int)(Math.random() * (9999 - 1000 + 1) + 1000);
+        int trois = (int)(Math.random() * (9999 - 1000 + 1) + 1000);
+        int quatre = (int)(Math.random() * (9999 - 1000 + 1) + 1000);
+        String numeroCarte = "" + un + "-" + deux + "-" + trois + "-" + quatre;
+
+        Carte existing = this.carteRepository.findByNumeroCarte(numeroCarte);
+        while(existing != null) {
+            un = (int)(Math.random() * (9999 - 1000 + 1) + 1000);
+            deux = (int)(Math.random() * (9999 - 1000 + 1) + 1000);
+            trois = (int)(Math.random() * (9999 - 1000 + 1) + 1000);
+            quatre = (int)(Math.random() * (9999 - 1000 + 1) + 1000);
+            numeroCarte = "" + un + "-" + deux + "-" + trois + "-" + quatre;
+            existing = this.carteRepository.findByNumeroCarte(numeroCarte);
+        }
+
+        return numeroCarte;
     }
 
     private void validateCarteModel(CarteCreateModel carteToCreate) throws ModelNotValidException {
