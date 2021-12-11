@@ -4,7 +4,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.util.List;
@@ -31,7 +30,7 @@ public class Agence {
 	@NotBlank
 	private String ville;
 
-	@OneToMany(mappedBy = "agence")
+	@OneToMany(mappedBy = "agence", cascade = CascadeType.REMOVE)
 	private List<Client> clients;
 }
 
