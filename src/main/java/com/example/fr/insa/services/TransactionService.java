@@ -56,6 +56,10 @@ public class TransactionService {
         this.transactionRepository.deleteById(id);
     }
 
+    public List<Transaction> getTransactionOfcompte(int idCompte) {
+        return this.transactionRepository.findByEmetteurId(idCompte);
+    }
+
     private void validateTransactionModel(TransactionCreateModel transactionToCreate) throws ModelNotValidException {
         ModelNotValidException ex = new ModelNotValidException();
 

@@ -3,6 +3,7 @@ package com.example.fr.insa.services;
 import com.example.fr.insa.exceptions.FonctionnalProcessException;
 import com.example.fr.insa.exceptions.ModelNotValidException;
 import com.example.fr.insa.models.Compte;
+import com.example.fr.insa.models.Transaction;
 import com.example.fr.insa.reposotories.CompteRepository;
 import com.example.fr.insa.ressources.dto.CompteCreateModel;
 
@@ -19,6 +20,9 @@ public class CompteService {
 
     @Autowired
     private CompteRepository compteRepository;
+
+    @Autowired
+    private TransactionService transactionService;
     
     public List<Compte> getAllCompte() {
         return this.compteRepository.findAll();
@@ -37,7 +41,7 @@ public class CompteService {
 
         validateCompteModel(compteToCreate);
 
-        Compte a = Compte.builder()
+        Compte c = Compte.builder()
                 .soldeCompte(compteToCreate.getSoldeCompte())
                 .decouvert(compteToCreate.getDecouvert())
                 .clients(new ArrayList<>())
@@ -45,7 +49,17 @@ public class CompteService {
                 .cartes(new ArrayList<>())
                 .build();
 
-        return this.compteRepository.save(a);
+        return this.compteRepository.save(c);
+    }
+
+    public List<Transaction> getTransactionOfCompte(int id) throws FonctionnalProcessException {
+
+        Compte compte =
+                compteRepository
+                        .findById(id)
+                        .orElseThrow(() -> new FonctionnalProcessException(String.format(COMPTE_NOT_FOUND, id)));
+
+        return  this.transactionService.getTransactionOfcompte(id);
     }
 
     public void deleteCompte(int id) {

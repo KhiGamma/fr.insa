@@ -2,6 +2,7 @@ package com.example.fr.insa.ressources;
 
 import com.example.fr.insa.exceptions.FonctionnalProcessException;
 import com.example.fr.insa.models.Compte;
+import com.example.fr.insa.models.Transaction;
 import com.example.fr.insa.ressources.dto.CompteCreateModel;
 import com.example.fr.insa.services.CompteService;
 
@@ -45,4 +46,8 @@ public class CompteRessource {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("{id}/transactions")
+    public List<Transaction> getTransactionOfCompte(@PathVariable("id") int id) throws FonctionnalProcessException {
+        return this.compteService.getTransactionOfCompte(id);
+    }
 }
