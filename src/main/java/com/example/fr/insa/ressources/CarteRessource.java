@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("cartes")
-public class CarteRessource {
+public class CarteRessource extends CommonResource {
 
     @Autowired
     private CarteService carteService;
@@ -28,7 +28,7 @@ public class CarteRessource {
     }
 
     @PostMapping
-    public Carte createCarte(@RequestBody CarteCreateModel carteTocreate) throws FonctionnalProcessException {
+    public Carte createCarte(@RequestBody CarteCreateModel carteTocreate) throws Exception {
         return this.carteService.saveCarte(carteTocreate);
     }
 

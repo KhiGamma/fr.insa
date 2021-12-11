@@ -66,6 +66,10 @@ public class CompteService {
         this.compteRepository.deleteById(id);
     }
 
+    public int getNombreDeCarte(int id) {
+        return this.compteRepository.nombreDeCarte(id);
+    }
+
     private void validateCompteModel(CompteCreateModel compteToCreate) throws ModelNotValidException {
         ModelNotValidException ex = new ModelNotValidException();
 

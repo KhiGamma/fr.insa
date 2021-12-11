@@ -3,6 +3,7 @@ package com.example.fr.insa.services;
 import com.example.fr.insa.exceptions.FonctionnalProcessException;
 import com.example.fr.insa.exceptions.ModelNotValidException;
 import com.example.fr.insa.models.Carte;
+import com.example.fr.insa.models.Compte;
 import com.example.fr.insa.reposotories.CarteRepository;
 import com.example.fr.insa.ressources.dto.CarteCreateModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,13 @@ import java.util.List;
 public class CarteService {
 
     private static final String CARTE_NOT_FOUND = "Carte non trouvée avec l'id : %s";
+    private static final String TOO_MUCH_CARTE = "Il y a déjà deux cartes liées au compte d'id : %s";
 
     @Autowired
     private CarteRepository carteRepository;
+
+    @Autowired
+    private CompteService compteService;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -35,16 +40,26 @@ public class CarteService {
         return carte;
     }
 
-    public Carte saveCarte(CarteCreateModel carteToCreate) throws FonctionnalProcessException {
-
-
+    public Carte saveCarte(CarteCreateModel carteToCreate) throws Exception {
 
         validateCarteModel(carteToCreate);
+
+        int nbCarte = this.compteService.getNombreDeCarte(carteToCreate.getIdCompte());
+
+        if (nbCarte > 1) {
+            ModelNotValidException ex = new ModelNotValidException();
+            ex.getMessages().add(String.format(TOO_MUCH_CARTE, carteToCreate.getIdCompte()));
+
+            throw ex;
+        }
+
+        Compte compte = this.compteService.getCompteById(carteToCreate.getIdCompte());
 
         Carte c = Carte.builder()
                 .numeroCarte(genererNumeroCarte())
                 .motDePasse(this.passwordEncoder.encode(carteToCreate.getMotDePasse()))
                 .plafond(carteToCreate.getPlafond())
+                .compte(compte)
                 .build();
 
         return this.carteRepository.save(c);
