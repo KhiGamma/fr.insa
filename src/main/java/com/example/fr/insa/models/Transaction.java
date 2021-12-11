@@ -3,15 +3,18 @@ package com.example.fr.insa.models;
 import java.util.Date;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,7 +25,6 @@ public class Transaction {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idTransaction;
 
-	@NotBlank
 	private String typeTransaction;
 
 	@ManyToOne
@@ -32,11 +34,10 @@ public class Transaction {
 	@NotBlank
 	private String beneficiaire;
 
-	@NotBlank
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 
-	@NotBlank
+	@Min(0)
 	private float montantTransaction;
 }
 

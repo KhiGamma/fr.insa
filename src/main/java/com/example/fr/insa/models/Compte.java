@@ -7,6 +7,7 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
@@ -27,9 +29,8 @@ public class Compte {
 	@Size(min = 27, max = 27)
 	private String iban;
 
-	private float soldeCompte = 0;
+	private float soldeCompte;
 
-	@NotBlank
 	@Min(0)
 	private float decouvert;
 
