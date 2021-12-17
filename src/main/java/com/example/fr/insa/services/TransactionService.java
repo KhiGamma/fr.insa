@@ -1,5 +1,6 @@
 package com.example.fr.insa.services;
 
+import com.example.fr.insa.exceptions.BadRequestException;
 import com.example.fr.insa.exceptions.FonctionnalProcessException;
 import com.example.fr.insa.exceptions.ModelNotValidException;
 import com.example.fr.insa.models.Compte;
@@ -11,11 +12,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TransactionService {
 	
 	private static final String TRANSACTION_NOT_FOUND = "Transaction non trouvée avec l'id : %s";
+    private static final String NOT_ENOUGTH_SOLDE = "Montant trop important : %s";
 
     @Autowired
     private TransactionRepository transactionRepository;
@@ -34,12 +37,16 @@ public class TransactionService {
         return transaction;
     }
 
-    //@Transactional(rollbackOn = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public Transaction saveTransaction(TransactionCreateModel transactionToCreate) throws FonctionnalProcessException {
 
         validateTransactionModel(transactionToCreate);
         
         Compte compteEmetteur = compteService.getCompteById(transactionToCreate.getEmetteur());
+
+        if (compteEmetteur.getSoldeCompte() < transactionToCreate.getMontantTransaction() - compteEmetteur.getDecouvert()) {
+            throw new BadRequestException(String.format(NOT_ENOUGTH_SOLDE, transactionToCreate.getMontantTransaction()));
+        }
 
         Transaction a = Transaction.builder()
                 .typeTransaction(transactionToCreate.getTypeTransaction())
@@ -48,6 +55,9 @@ public class TransactionService {
                 .date(transactionToCreate.getDate())
                 .montantTransaction(transactionToCreate.getMontantTransaction())
                 .build();
+
+        this.compteService.retirerSoldeCompte(transactionToCreate.getEmetteur(), transactionToCreate.getMontantTransaction());
+        this.compteService.ajouterSoldecompte(transactionToCreate.getBeneficiaire(), transactionToCreate.getMontantTransaction());
 
         return this.transactionRepository.save(a);
     }
@@ -81,5 +91,4 @@ public class TransactionService {
             throw ex;
         }
     }
-
 }

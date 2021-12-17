@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("transactions")
-public class TransactionRessource {
+public class TransactionRessource extends CommonResource {
 
     @Autowired
     private TransactionService transactionService;
@@ -44,6 +44,4 @@ public class TransactionRessource {
         this.transactionService.deleteTransaction(id);
         return ResponseEntity.ok().build();
     }
-
-
 }

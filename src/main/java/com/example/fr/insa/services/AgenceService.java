@@ -31,8 +31,7 @@ public class AgenceService {
         return agence;
     }
 
-    //@Transactional(rollbackOn = Exception.class)
-    public Agence saveAgence(AgenceCreateModel agenceToCreate) throws FonctionnalProcessException {
+    public Agence saveAgence(AgenceCreateModel agenceToCreate) {
 
         validateAgenceModel(agenceToCreate);
 

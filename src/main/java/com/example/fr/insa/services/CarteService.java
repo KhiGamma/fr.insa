@@ -20,10 +20,8 @@ public class CarteService {
 
     @Autowired
     private CarteRepository carteRepository;
-
     @Autowired
     private CompteService compteService;
-
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
@@ -42,15 +40,6 @@ public class CarteService {
     public Carte saveCarte(CarteCreateModel carteToCreate) throws Exception {
 
         validateCarteModel(carteToCreate);
-
-        int nbCarte = this.compteService.getNombreDeCarte(carteToCreate.getIdCompte());
-
-        if (nbCarte > 1) {
-            ModelNotValidException ex = new ModelNotValidException();
-            ex.getMessages().add(String.format(TOO_MUCH_CARTE, carteToCreate.getIdCompte()));
-
-            throw ex;
-        }
 
         Compte compte = this.compteService.getCompteById(carteToCreate.getIdCompte());
 
@@ -95,8 +84,11 @@ public class CarteService {
         if(carteToCreate.getPlafond() < 0) {
             ex.getMessages().add("plafond inférieur à 0");
         }
-        if(carteToCreate.getMotDePasse() == null || carteToCreate.getMotDePasse().isBlank()) {
-            ex.getMessages().add("le mot de passe est vide");
+        if(carteToCreate.getMotDePasse() == null || carteToCreate.getMotDePasse().isBlank() || carteToCreate.getMotDePasse().length() != 4) {
+            ex.getMessages().add("le mot de passe est incorrecte");
+        }
+        if (this.compteService.getNombreDeCarte(carteToCreate.getIdCompte()) > 1) {
+            ex.getMessages().add(String.format(TOO_MUCH_CARTE, carteToCreate.getIdCompte()));
         }
 
         if(!ex.getMessages().isEmpty()) {

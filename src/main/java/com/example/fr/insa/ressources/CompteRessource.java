@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("comptes")
-public class CompteRessource {
+public class CompteRessource extends CommonResource {
 
     @Autowired
     private CompteService compteService;

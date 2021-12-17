@@ -7,26 +7,27 @@ import com.example.fr.insa.models.Client;
 import com.example.fr.insa.models.Compte;
 import com.example.fr.insa.models.Transaction;
 import com.example.fr.insa.reposotories.CompteRepository;
+import com.example.fr.insa.ressources.CommonResource;
 import com.example.fr.insa.ressources.dto.input.CompteCreateModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CompteService {
+public class CompteService extends CommonResource {
 	
 	private static final String COMPTE_NOT_FOUND = "Compte non trouvée avec l'id : %s";
+    private static final String COMPTE_NOT_FOUND_IBAN = "Compte non trouvée avec l'iban : %s";
     private static final String NOT_SAME_AGENCE = "Le compte d'id %s ne fait pas partie de la même agence";
 
     @Autowired
     private CompteRepository compteRepository;
-
     @Autowired
     private TransactionService transactionService;
-
     @Autowired
     private ClientService clientService;
     
@@ -42,26 +43,19 @@ public class CompteService {
         return compte;
     }
 
-    //@Transactional(rollbackOn = Exception.class)
+    public Compte getCompteByIban(String iban) throws FonctionnalProcessException {
+        Compte compte =
+                compteRepository
+                        .findByIban(iban)
+                        .orElseThrow(() -> new FonctionnalProcessException(String.format(COMPTE_NOT_FOUND_IBAN, iban)));
+        return compte;
+    }
+
     public Compte saveCompte(CompteCreateModel compteToCreate) throws Exception {
 
         validateCompteModel(compteToCreate);
 
         String numeroCompte = genererNumeroCompte();
-
-        Agence agence = this.clientService.getClientById(compteToCreate.getClientIds().get(0)).getAgence();
-
-        for (Integer id : compteToCreate.getClientIds()) {
-            Client client = this.clientService.getClientById(id);
-
-            if (!client.getAgence().getCodeAgence().equals(agence.getCodeAgence())) {
-                ModelNotValidException ex = new ModelNotValidException();
-
-                ex.getMessages().add(String.format(NOT_SAME_AGENCE, client.getIdClient()));
-
-                throw ex;
-            }
-        }
 
         Compte c = Compte.builder()
                 .numeroCompte(numeroCompte)
@@ -73,6 +67,7 @@ public class CompteService {
                 .cartes(new ArrayList<>())
                 .build();
 
+        // affectation des clients titulaires
         for (Integer id : compteToCreate.getClientIds()) {
             Client client = this.clientService.getClientById(id);
 
@@ -128,11 +123,27 @@ public class CompteService {
         return iban;
     }
 
+    public void retirerSoldeCompte(String numeroCompte, float montant) throws FonctionnalProcessException {
+        Compte compte = this.getCompteById(numeroCompte);
+
+        compte.setSoldeCompte(compte.getSoldeCompte() - montant);
+
+        this.compteRepository.save(compte);
+    }
+
+    public void ajouterSoldecompte(String iban, float montant) throws FonctionnalProcessException {
+        Compte compte = this.getCompteByIban(iban);
+
+        compte.setSoldeCompte(compte.getSoldeCompte() + montant);
+
+        this.compteRepository.save(compte);
+    }
+
     public int getNombreDeCarte(String id) {
         return this.compteRepository.nombreDeCarte(id);
     }
 
-    private void validateCompteModel(CompteCreateModel compteToCreate) throws ModelNotValidException {
+    private void validateCompteModel(CompteCreateModel compteToCreate) throws Exception {
         ModelNotValidException ex = new ModelNotValidException();
 
         if(compteToCreate == null) {
@@ -144,6 +155,17 @@ public class CompteService {
         }
         if(compteToCreate.getClientIds() == null || compteToCreate.getClientIds().size() == 0) {
             ex.getMessages().add("Aucun titulaire(s) indiqué(s)");
+        }
+
+        // Verifie si tous les titulaires font parties de la même agence
+        Agence agence = this.clientService.getClientById(compteToCreate.getClientIds().get(0)).getAgence();
+
+        for (Integer id : compteToCreate.getClientIds()) {
+            Client client = this.clientService.getClientById(id);
+
+            if (!client.getAgence().getCodeAgence().equals(agence.getCodeAgence())) {
+                ex.getMessages().add(String.format(NOT_SAME_AGENCE, client.getIdClient()));
+            }
         }
         
         if(!ex.getMessages().isEmpty()) {
