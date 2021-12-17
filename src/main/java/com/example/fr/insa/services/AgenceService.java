@@ -23,7 +23,7 @@ public class AgenceService {
         return this.agenceRepository.findAll();
     }
 
-    public Agence getAgenceById(int id) throws FonctionnalProcessException {
+    public Agence getAgenceById(String id) throws FonctionnalProcessException {
         Agence agence =
                 agenceRepository
                         .findById(id)
@@ -37,6 +37,7 @@ public class AgenceService {
         validateAgenceModel(agenceToCreate);
 
         Agence a = Agence.builder()
+                .codeAgence(genererCodeAgence())
                 .nomAgence(agenceToCreate.getNomAgence())
                 .adresse(agenceToCreate.getAdresse())
                 .ville(agenceToCreate.getVille())
@@ -46,8 +47,22 @@ public class AgenceService {
         return this.agenceRepository.save(a);
     }
 
-    public void deleteAgence(int id) {
+    public void deleteAgence(String id) {
         this.agenceRepository.deleteById(id);
+    }
+
+    public String genererCodeAgence() {
+        Agence existing = null;
+        String codeAgence = "";
+
+        do {
+            int code = (int) (Math.random() * (99999 - 10000 + 1) + 10000);
+            codeAgence = "" + code;
+
+            existing = this.agenceRepository.findByCodeAgence(codeAgence);
+        } while(existing != null);
+
+        return codeAgence;
     }
 
     private void validateAgenceModel(AgenceCreateModel agenceToCreate) throws ModelNotValidException {

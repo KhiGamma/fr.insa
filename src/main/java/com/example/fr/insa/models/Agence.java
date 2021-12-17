@@ -18,10 +18,8 @@ import java.util.List;
 public class Agence {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "codeAgenceGenerator")
-	@SequenceGenerator(name = "codeAgenceGenerator", initialValue = 10004, allocationSize = 1)
-	@Max(99999)
-	private int codeAgence;
+	@Size(min = 5, max = 5)
+	private String codeAgence;
 
 	@NotBlank
 	private String nomAgence;

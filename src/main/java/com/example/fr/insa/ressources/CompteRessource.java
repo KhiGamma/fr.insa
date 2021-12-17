@@ -31,23 +31,23 @@ public class CompteRessource {
     }
 
     @GetMapping("{id}")
-    public Compte getCompte(@PathVariable("id") int id) throws Exception {
+    public Compte getCompte(@PathVariable("id") String id) throws Exception {
         return compteService.getCompteById(id);
     }
 
     @PostMapping
-    public Compte createCompte(@RequestBody CompteCreateModel compteToCreate) throws FonctionnalProcessException {
+    public Compte createCompte(@RequestBody CompteCreateModel compteToCreate) throws Exception {
         return this.compteService.saveCompte(compteToCreate);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity deleteCompte(@PathVariable("id") int id) {
+    public ResponseEntity deleteCompte(@PathVariable("id") String id) {
         this.compteService.deleteCompte(id);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("{id}/transactions")
-    public List<Transaction> getTransactionOfCompte(@PathVariable("id") int id) throws FonctionnalProcessException {
+    public List<Transaction> getTransactionOfCompte(@PathVariable("id") String id) throws FonctionnalProcessException {
         return this.compteService.getTransactionOfCompte(id);
     }
 }

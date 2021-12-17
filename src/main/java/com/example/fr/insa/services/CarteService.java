@@ -70,21 +70,18 @@ public class CarteService {
     }
 
     private String genererNumeroCarte() {
-        int un = (int)(Math.random() * (9999 - 1000 + 1) + 1000);
-        int deux = (int)(Math.random() * (9999 - 1000 + 1) + 1000);
-        int trois = (int)(Math.random() * (9999 - 1000 + 1) + 1000);
-        int quatre = (int)(Math.random() * (9999 - 1000 + 1) + 1000);
-        String numeroCarte = "" + un + "-" + deux + "-" + trois + "-" + quatre;
+        Carte existing = null;
+        String numeroCarte = "";
 
-        Carte existing = this.carteRepository.findByNumeroCarte(numeroCarte);
-        while(existing != null) {
-            un = (int)(Math.random() * (9999 - 1000 + 1) + 1000);
-            deux = (int)(Math.random() * (9999 - 1000 + 1) + 1000);
-            trois = (int)(Math.random() * (9999 - 1000 + 1) + 1000);
-            quatre = (int)(Math.random() * (9999 - 1000 + 1) + 1000);
+        do {
+            int un = (int) (Math.random() * (9999 - 1000 + 1) + 1000);
+            int deux = (int) (Math.random() * (9999 - 1000 + 1) + 1000);
+            int trois = (int) (Math.random() * (9999 - 1000 + 1) + 1000);
+            int quatre = (int) (Math.random() * (9999 - 1000 + 1) + 1000);
             numeroCarte = "" + un + "-" + deux + "-" + trois + "-" + quatre;
+
             existing = this.carteRepository.findByNumeroCarte(numeroCarte);
-        }
+        } while(existing != null);
 
         return numeroCarte;
     }

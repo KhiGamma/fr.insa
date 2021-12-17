@@ -11,5 +11,5 @@ public class CarteCreateModel {
 
     private int plafond;
 
-    private int idCompte;
+    private String idCompte;
 }

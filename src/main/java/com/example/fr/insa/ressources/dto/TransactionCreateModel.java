@@ -11,7 +11,7 @@ public class TransactionCreateModel {
 
 	private String typeTransaction;
 	
-	private int emetteur;
+	private String emetteur;
 	
 	private String beneficiaire;
 	
