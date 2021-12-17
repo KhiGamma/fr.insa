@@ -1,4 +1,4 @@
-package com.example.fr.insa.ressources.dto;
+package com.example.fr.insa.ressources.dto.input;
 
 import lombok.Getter;
 import lombok.Setter;

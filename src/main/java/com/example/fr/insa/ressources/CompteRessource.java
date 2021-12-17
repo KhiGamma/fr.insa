@@ -3,7 +3,7 @@ package com.example.fr.insa.ressources;
 import com.example.fr.insa.exceptions.FonctionnalProcessException;
 import com.example.fr.insa.models.Compte;
 import com.example.fr.insa.models.Transaction;
-import com.example.fr.insa.ressources.dto.CompteCreateModel;
+import com.example.fr.insa.ressources.dto.input.CompteCreateModel;
 import com.example.fr.insa.services.CompteService;
 
 import java.util.List;

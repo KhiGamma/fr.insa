@@ -1,4 +1,4 @@
-package com.example.fr.insa.ressources.dto;
+package com.example.fr.insa.ressources.dto.input;
 
 import java.util.Date;
 

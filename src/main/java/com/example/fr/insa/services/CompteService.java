@@ -7,7 +7,7 @@ import com.example.fr.insa.models.Client;
 import com.example.fr.insa.models.Compte;
 import com.example.fr.insa.models.Transaction;
 import com.example.fr.insa.reposotories.CompteRepository;
-import com.example.fr.insa.ressources.dto.CompteCreateModel;
+import com.example.fr.insa.ressources.dto.input.CompteCreateModel;
 
 import java.util.ArrayList;
 import java.util.List;

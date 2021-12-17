@@ -5,7 +5,7 @@ import com.example.fr.insa.exceptions.ModelNotValidException;
 import com.example.fr.insa.models.Compte;
 import com.example.fr.insa.models.Transaction;
 import com.example.fr.insa.reposotories.TransactionRepository;
-import com.example.fr.insa.ressources.dto.TransactionCreateModel;
+import com.example.fr.insa.ressources.dto.input.TransactionCreateModel;
 
 import java.util.List;
 

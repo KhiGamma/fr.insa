@@ -5,12 +5,11 @@ import com.example.fr.insa.exceptions.ModelNotValidException;
 import com.example.fr.insa.models.Carte;
 import com.example.fr.insa.models.Compte;
 import com.example.fr.insa.reposotories.CarteRepository;
-import com.example.fr.insa.ressources.dto.CarteCreateModel;
+import com.example.fr.insa.ressources.dto.input.CarteCreateModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

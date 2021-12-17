@@ -2,7 +2,7 @@ package com.example.fr.insa.ressources;
 
 import com.example.fr.insa.exceptions.FonctionnalProcessException;
 import com.example.fr.insa.models.Transaction;
-import com.example.fr.insa.ressources.dto.TransactionCreateModel;
+import com.example.fr.insa.ressources.dto.input.TransactionCreateModel;
 import com.example.fr.insa.services.TransactionService;
 
 import java.util.List;

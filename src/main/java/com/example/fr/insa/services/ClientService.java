@@ -5,7 +5,7 @@ import com.example.fr.insa.exceptions.ModelNotValidException;
 import com.example.fr.insa.models.Agence;
 import com.example.fr.insa.models.Client;
 import com.example.fr.insa.reposotories.ClientRepository;
-import com.example.fr.insa.ressources.dto.ClientCreateModel;
+import com.example.fr.insa.ressources.dto.input.ClientCreateModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

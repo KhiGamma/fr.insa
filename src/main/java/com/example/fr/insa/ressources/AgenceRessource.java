@@ -2,7 +2,7 @@ package com.example.fr.insa.ressources;
 
 import com.example.fr.insa.exceptions.FonctionnalProcessException;
 import com.example.fr.insa.models.Agence;
-import com.example.fr.insa.ressources.dto.AgenceCreateModel;
+import com.example.fr.insa.ressources.dto.input.AgenceCreateModel;
 import com.example.fr.insa.services.AgenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

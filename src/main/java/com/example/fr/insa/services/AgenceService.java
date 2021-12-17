@@ -4,7 +4,7 @@ import com.example.fr.insa.exceptions.FonctionnalProcessException;
 import com.example.fr.insa.exceptions.ModelNotValidException;
 import com.example.fr.insa.models.Agence;
 import com.example.fr.insa.reposotories.AgenceRepository;
-import com.example.fr.insa.ressources.dto.AgenceCreateModel;
+import com.example.fr.insa.ressources.dto.input.AgenceCreateModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
