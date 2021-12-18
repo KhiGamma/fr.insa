@@ -33,10 +33,10 @@ public class Compte {
 	@Min(0)
 	private float decouvert;
 
-	@OneToMany(mappedBy = "compte")
+	@OneToMany(mappedBy = "compte", cascade = CascadeType.REMOVE)
 	private List<Carte> cartes;
 
-	@OneToMany(mappedBy = "emetteur")
+	@OneToMany(mappedBy = "emetteur", cascade = CascadeType.REMOVE)
 	private List<Transaction> transactions;
 
 	@JsonIgnore

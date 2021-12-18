@@ -49,7 +49,7 @@ public class Client {
 	@NotBlank
 	private String ville;
 
-	@ManyToMany(mappedBy = "clients")
+	@ManyToMany(mappedBy = "clients", cascade = CascadeType.REMOVE)
 	private List<Compte> comptes;
 }
 
