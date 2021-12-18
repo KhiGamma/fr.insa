@@ -108,7 +108,7 @@ public class CompteService extends CommonResource {
 
     public String genererIban(String numeroCompte, int clientId) throws Exception {
         String codeBanque = "30076";
-        String iban = "FR76 " + codeBanque;
+        String iban = "FR76" + codeBanque;
         String codeAgence = this.clientService.getClientById(clientId).getAgence().getCodeAgence();
 
         String cleRib = String.valueOf(
@@ -118,7 +118,7 @@ public class CompteService extends CommonResource {
                     3L  * Long.parseLong(numeroCompte)
                 ) % 97));
 
-        iban += " " + codeAgence + " " + numeroCompte + " " + cleRib;
+        iban += codeAgence + numeroCompte + cleRib;
 
         return iban;
     }

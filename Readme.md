@@ -1,20 +1,26 @@
-# Getting Started
+# Projet BDD API Banque
+### Par Arnaud JUILIEN et Antoine BURY
 
-### Reference Documentation
-For further reference, please consider the following sections:
+---
+Compte rendu des ajouts et modifications depuis la présentation.
 
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.6.0/maven-plugin/reference/html/)
-* [Create an OCI image](https://docs.spring.io/spring-boot/docs/2.6.0/maven-plugin/reference/html/#build-image)
-* [Spring Web](https://docs.spring.io/spring-boot/docs/2.6.0/reference/htmlsingle/#boot-features-developing-web-applications)
-* [Spring Data JPA](https://docs.spring.io/spring-boot/docs/2.6.0/reference/htmlsingle/#boot-features-jpa-and-spring-data)
-* [Validation](https://docs.spring.io/spring-boot/docs/2.6.0/reference/htmlsingle/#boot-features-validation)
+### Agence
 
-### Guides
-The following guides illustrate how to use some features concretely:
+* Ajout d'une requête avec querry param
+  * Cette requête renvoie les agences ayants la même 
+  adresse ou le même nom qu'indiqué dans la querry
+* Modification du chemin pour récupérer toutes les agances
+  * Avant /agences : maintenant /agences/all
 
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/bookmarks/)
-* [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
+### Compte
 
+* Retrait des éspaces dans l'IBAN
+
+### Carte
+
+* Retrait des tirets dans le numero de carte
+
+### Ameliorations envisagées
+
+* Utiliser des DTO de réponse au lieu de renvoyer les entités
+* Ajouter plus de requêtes avec querry param

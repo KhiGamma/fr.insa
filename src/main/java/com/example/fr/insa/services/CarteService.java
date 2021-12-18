@@ -66,7 +66,7 @@ public class CarteService {
             int deux = (int) (Math.random() * (9999 - 1000 + 1) + 1000);
             int trois = (int) (Math.random() * (9999 - 1000 + 1) + 1000);
             int quatre = (int) (Math.random() * (9999 - 1000 + 1) + 1000);
-            numeroCarte = "" + un + "-" + deux + "-" + trois + "-" + quatre;
+            numeroCarte = "" + un + deux + trois + quatre;
 
             existing = this.carteRepository.findByNumeroCarte(numeroCarte);
         } while(existing != null);

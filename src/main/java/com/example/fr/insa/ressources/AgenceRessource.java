@@ -17,14 +17,27 @@ public class AgenceRessource extends CommonResource {
     @Autowired
     public AgenceService agenceService;
 
-    @GetMapping()
+    @GetMapping("all")
     public List<Agence> getAllAgence() {
         return this.agenceService.getAllAgence();
     }
 
+    @GetMapping()
+    public Agence getAgenceByNameOrAdresse(
+            @RequestParam(
+                name = "nomAgence",
+                required = false,
+                defaultValue = "") String nomAgence,
+            @RequestParam(
+                name = "adresse",
+                required = false,
+                defaultValue = "") String adresse) throws FonctionnalProcessException {
+        return agenceService.getAgenceByNomAgenceOrAdresse(nomAgence, adresse);
+    }
+
     @GetMapping("{id}")
-    public Agence getAgence(@PathVariable("id") String id) throws Exception {
-        return agenceService.getAgenceById(id);
+    public Agence getAgence(@PathVariable("id") String codeAgence) throws Exception {
+        return agenceService.getAgenceById(codeAgence);
     }
 
     @PostMapping

@@ -31,6 +31,15 @@ public class AgenceService {
         return agence;
     }
 
+    public Agence getAgenceByNomAgenceOrAdresse(String nomAgence, String adresse) throws FonctionnalProcessException {
+        Agence agence =
+                agenceRepository
+                        .findAgenceByNomAgenceOrAdresse(nomAgence, adresse)
+                        .orElseThrow(() -> new FonctionnalProcessException(String.format("Aucune agence de nom %s ou d'adresse %s", nomAgence, adresse)));
+
+        return agence;
+    }
+
     public Agence saveAgence(AgenceCreateModel agenceToCreate) {
 
         validateAgenceModel(agenceToCreate);
