@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AgenceService {
@@ -31,11 +32,12 @@ public class AgenceService {
         return agence;
     }
 
-    public Agence getAgenceByNomAgenceOrAdresse(String nomAgence, String adresse) throws FonctionnalProcessException {
-        Agence agence =
-                agenceRepository
-                        .findAgenceByNomAgenceOrAdresse(nomAgence, adresse)
-                        .orElseThrow(() -> new FonctionnalProcessException(String.format("Aucune agence de nom %s ou d'adresse %s", nomAgence, adresse)));
+    public List<Agence> getAgenceByNomAgenceOrAdresseOrVille(String nomAgence, String adresse, String ville) throws FonctionnalProcessException {
+        List<Agence> agence = agenceRepository.findAgenceByNomAgenceContainingOrAdresseContainingOrVilleContaining(nomAgence, adresse, ville);
+
+        if (agence.isEmpty()) {
+            throw new FonctionnalProcessException(String.format("Aucune agence de nom %s ou d'adresse %s", nomAgence, adresse));
+        }
 
         return agence;
     }

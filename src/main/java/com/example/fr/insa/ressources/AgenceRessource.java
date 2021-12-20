@@ -23,16 +23,20 @@ public class AgenceRessource extends CommonResource {
     }
 
     @GetMapping()
-    public Agence getAgenceByNameOrAdresse(
+    public List<Agence> getAgenceByNameOrAdresse(
             @RequestParam(
                 name = "nomAgence",
                 required = false,
-                defaultValue = "") String nomAgence,
+                defaultValue = "*") String nomAgence,
             @RequestParam(
                 name = "adresse",
                 required = false,
-                defaultValue = "") String adresse) throws FonctionnalProcessException {
-        return agenceService.getAgenceByNomAgenceOrAdresse(nomAgence, adresse);
+                defaultValue = "*") String adresse,
+            @RequestParam(
+                name = "ville",
+                required = false,
+                defaultValue = "*") String ville) throws FonctionnalProcessException {
+        return agenceService.getAgenceByNomAgenceOrAdresseOrVille(nomAgence, adresse, ville);
     }
 
     @GetMapping("{id}")
